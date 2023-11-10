@@ -5,8 +5,6 @@ import "./index.css";
 import { Checkout, Detail, Product, Register } from "./pages";
 import { Cart, PageContents } from "./components";
 import Root from "./Root";
-import Test from "./components/Test";
-// import { Outlet } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -32,10 +30,6 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
-      },
-      {
-        path: "/test",
-        element: <Test />,
       },
     ],
   },
