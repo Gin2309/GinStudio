@@ -2,9 +2,9 @@ import React from "react";
 import { footer } from "../assets";
 import Slider from "./Slider";
 import { Link } from "react-router-dom";
-import { productPage } from "../constants";
+// import { productPage } from "../constants";
 
-const PageContents = () => {
+const PageContents = ({ productPage }) => {
   const homePage = productPage.slice(0, 8);
 
   function formatCurrency(value) {
@@ -18,17 +18,18 @@ const PageContents = () => {
       </h1>
       <div className="flex-wrap flex justify-center 2xl:max-w-[60%] lg:max-w-[90%] xl:max-w-[75%] lg:mx-auto">
         {homePage.map((item) => (
-          <div
+          <Link
+            to={`/product/${item.id}`}
             key={item.id}
-            className="max-w-[25%] md:max-w-[33%] sm:max-w-[33%]"
+            className="lg:max-w-[25%] md:max-w-[33%] sm:max-w-[33%]"
           >
-            <Link to="/product/detail">
+            <div className="overflow-hidden">
               <img
                 src={item.img}
                 alt=""
-                className="h-[300px] cursor-pointer "
+                className="h-[300px] cursor-pointer transition-transform transform-gpu group-hover:scale-110 duration-450"
               />
-            </Link>
+            </div>
             <div className="text-center ">
               <h1 className="text-[#282828] text-[20px] font-bold ">
                 {item.title}
@@ -37,7 +38,7 @@ const PageContents = () => {
                 {formatCurrency(item.price)}đ
               </p>
             </div>
-          </div>
+          </Link>
         ))}
         <img src={footer} alt="" className="w-[100%] py-[20px]" />
       </div>

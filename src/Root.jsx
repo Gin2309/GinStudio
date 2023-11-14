@@ -45,13 +45,10 @@ const Root = () => {
               </Link>
               <div className="absolute hidden group-hover:block left-0 pt-[8px] w-48 bg-white shadow-md rounded-xs font-normal">
                 <ul>
-                  <Link
-                    to="/product/detail"
-                    className="block hover:bg-gray-300"
-                  >
+                  <div className="block hover:bg-gray-300">
                     <span className="pl-[20px]"></span>
                     Tshirt
-                  </Link>
+                  </div>
                   <li className="block hover:bg-gray-300 ">
                     <span className="pl-[20px]"></span>polo
                   </li>

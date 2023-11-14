@@ -5,6 +5,7 @@ import "./index.css";
 import { Checkout, Detail, Product, Register } from "./pages";
 import { Cart, PageContents } from "./components";
 import Root from "./Root";
+import { productPage } from "./constants";
 
 const router = createBrowserRouter([
   {
@@ -16,16 +17,16 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "product",
-        element: <Product />,
-      },
-      {
-        path: "product/detail",
-        element: <Detail />,
-      },
-      {
         path: "/",
-        element: <PageContents />,
+        element: <PageContents productPage={productPage} />,
+      },
+      {
+        path: "product",
+        element: <Product productPage={productPage} />,
+      },
+      {
+        path: "product/:id",
+        element: <Detail productPage={productPage} />,
       },
       {
         path: "/checkout",

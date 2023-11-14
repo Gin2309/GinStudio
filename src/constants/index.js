@@ -144,14 +144,3 @@ export const productPage = [
     price: 690000,
   },
 ];
-
-export const productImg = [
-  {
-    id: 1,
-    img: shirt1,
-  },
-  {
-    id: 2,
-    img: shirt1_1,
-  },
-];

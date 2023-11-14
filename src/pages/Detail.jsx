@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { shirt1 } from "../assets";
-import { productImg } from "../constants";
+import { shirt1_1 } from "../assets";
+import { useParams } from "react-router-dom";
+import { usePayments } from "../components";
 
-function Detail() {
+function Detail({ productPage }) {
+  const { formatCurrency } = usePayments();
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const { id } = useParams();
+  const { img, title, price } = productPage.find(
+    (item) => item.id === parseInt(id)
+  );
+
+  let product = [];
+  product.push(img);
+  product.push(shirt1_1);
+
+  const productArray = product.map((img, index) => ({
+    id: index + 1,
+    img: img,
+  }));
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -39,10 +55,10 @@ function Detail() {
     }
   };
 
-  const [currentImage, setCurrentImage] = useState(productImg[0]);
+  const [currentImage, setCurrentImage] = useState(productArray[0]);
 
-  const changeImage = (productImg) => {
-    setCurrentImage(productImg);
+  const changeImage = (productArray) => {
+    setCurrentImage(productArray);
   };
 
   const handleChange = (event) => {
@@ -57,13 +73,13 @@ function Detail() {
           Top
         </Link>
         <Link to="/product/detail" className="font-bold ml-[20px]">
-          Tyler Polo
+          {title}
         </Link>
       </div>
       <div className="mb-[50px] flex">
         <div className="w-[70%] justify-center flex">
           <div className="pt-[60px]">
-            {productImg.map((image) => (
+            {productArray.map((image) => (
               <img
                 key={image.id}
                 src={image.img}
@@ -84,8 +100,10 @@ function Detail() {
 
         <div className="w-[30%] ">
           <div className="font-bold border-b border-gray-300 pb-[10px]">
-            <h1 className="text-[24px] mb-[15px]">Tyler Polo</h1>
-            <span className="text-[chocolate] text-[18px] ">530.000VND</span>
+            <h1 className="text-[24px] mb-[15px]">{title}</h1>
+            <span className="text-[chocolate] text-[18px] ">
+              {formatCurrency(price)} VNĐ
+            </span>
           </div>
           <p className="mt-[20px] mb-[10px]">Size</p>
           <div>

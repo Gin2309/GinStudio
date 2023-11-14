@@ -1,8 +1,7 @@
 import React from "react";
-import { productPage } from "../constants";
 import { Link } from "react-router-dom";
 
-function Product() {
+function Product({ productPage }) {
   function formatCurrency(value) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
@@ -47,14 +46,18 @@ function Product() {
         </div>
         <div className="flex flex-wrap w-[75%] mb-[40px] ml-[25%]">
           {productPage.map((item) => (
-            <div key={item.id} className="max-w-[25%] group">
-              <Link to="/product/detail" className="overflow-hidden">
+            <Link
+              to={`/product/${item.id}`}
+              key={item.id}
+              className="max-w-[25%] group"
+            >
+              <div className="overflow-hidden">
                 <img
                   src={item.img}
                   alt=""
                   className="h-[300px] cursor-pointer xl:mx-[15px] transition-transform transform-gpu group-hover:scale-110 duration-450 "
                 />
-              </Link>
+              </div>
               <div className="text-center">
                 <h1 className="text-[#282828] text-[20px] font-bold">
                   {item.title}
@@ -63,7 +66,7 @@ function Product() {
                   {formatCurrency(item.price)}đ
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
