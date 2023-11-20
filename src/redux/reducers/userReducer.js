@@ -7,7 +7,9 @@ import {
 } from "../action/userAction";
 
 const INITIAL_STATE = {
-  acc: { email: "", auth: false, token: "" },
+  account: { email: "", auth: false, token: "" },
+  isLoading: false,
+  isError: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -15,19 +17,30 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case FETCH_USER_LOGIN:
       return {
         ...state,
-        count: state.count + 1,
+        isLoading: true,
+        isError: false,
       };
 
     case FETCH_USER_ERROR:
       return {
         ...state,
-        count: state.count - 1,
+        account: {
+          auth: false,
+        },
+        isLoading: false,
+        isError: true,
       };
 
     case FETCH_USER_SUCCESS:
       return {
         ...state,
-        count: state.count - 1,
+        account: {
+          email: action.data.email,
+          token: action.data.token,
+          auth: true,
+        },
+        isLoading: false,
+        isError: false,
       };
 
     default:

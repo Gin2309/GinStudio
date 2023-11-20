@@ -8,6 +8,7 @@ import Root from "./Root";
 import { productPage } from "./constants";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -34,22 +35,26 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ],
   },
   {
     path: "/cart",
     element: <Cart />,
   },
-  {
-    path: "/register",
-    element: <Register />,
-  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </React.StrictMode>
-  </Provider>
+    </Provider>
+  </React.StrictMode>
 );

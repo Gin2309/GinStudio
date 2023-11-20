@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginApi } from "../service/UserServices";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { handleLoginRedux } from "../redux/action/userAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import userSlice from "../redux/reducers/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loadApi, setLoadApi] = useState(false);
+
+  const isLoading = useSelector((state) => state.user);
+  const account = useSelector((state) => state.user);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -20,32 +23,18 @@ const Login = () => {
       return;
     }
 
-    try {
-      setLoadApi(true);
-      let res = await loginApi(email, password);
-      if (res && res.token) {
-        dispatch(handleLoginRedux(email, password));
-        navigate("/");
-      } else {
-        if (res && res.status === 400) {
-          // Hiển thị cảnh báo từ phản hồi nếu có
-          alert(res.data.error);
-        } else {
-          // Hiển thị cảnh báo mặc định nếu không có phản hồi hoặc không có thông tin cụ thể
-          alert("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
-        }
-      }
-    } catch (error) {
-      // Xử lý lỗi từ phía client
-      console.error("Lỗi khi đăng nhập:", error);
-      alert("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
-    }
-    setLoadApi(false);
+    dispatch(handleLoginRedux(email, password));
   };
+
+  useEffect(() => {
+    if (account && account.auth === true) {
+      navigate("/");
+    }
+  }, [account]);
 
   return (
     <>
-      <div className="py-[100px]">
+      <div className="py-[200px]">
         <div className="bg-[#EBEBEB] text-[#212428] rounded-md w-[25%] mx-[auto]">
           <form action="" className=" p-[20px]">
             <div className="flex flex-col ">
@@ -62,24 +51,26 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="p-[8px] rounded-md hover:shadow-lg my-[25px]"
+                className="p-[8px] rounded-md hover:shadow-lg mt-[25px] mb-[5px]"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
+              {error && (
+                <div className="text-[red] mb-[10px] text-[14px]">{error}</div>
+              )}
             </div>
             <div className="flex flex-col">
               <Link
                 to="/register"
-                className="hover:bg-[#62FF86] hover:border-[#212428] hover:border-[2px] border-[2px] border-[#EBEBEB] text-center py-[4px] px-[8px] font-bold"
+                className=" hover:text-[chocolate]  text-center py-[4px] px-[8px] font-bold"
               >
-                I don't have a HackerNoon account yet
+                I don't have an account yet
               </Link>
               <Link
-                // disabled={loadApi}
                 onClick={() => handleLogin()}
-                className="text-[#00FF00] bg-[#3C3C3B] text-center py-[8px] px-[30px] rounded-md mt-[15px] font-bold"
+                className="text-[white] bg-[#3C3C3B] text-center py-[8px] px-[30px] rounded-md mt-[15px] font-bold"
               >
-                {loadApi && (
+                {isLoading && (
                   <FontAwesomeIcon
                     icon={faSpinner}
                     className="fa-spin-pulse fa-spin-reverse"
@@ -87,10 +78,8 @@ const Login = () => {
                 )}{" "}
                 LOG ME IN
               </Link>
-              {error && (
-                <div className="text-[red] mb-[10px] text-[13px]">{error}</div>
-              )}
-              <Link className=" hover:bg-[#62FF86] hover:border-[#212428] hover:border-[2px] uppercase text-center border-[2px] border-[#EBEBEB] font-bold">
+
+              <Link className="  uppercase text-center mt-[10px] font-bold">
                 forgot your password
               </Link>
             </div>
