@@ -11,7 +11,6 @@ import {
   faUser,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-// import { handleLogoutRedux } from "./redux/action/userAction";
 import { useDispatch } from "react-redux";
 import { fetchUserLogout } from "./redux/slices/userSlice";
 
@@ -22,12 +21,20 @@ const Root = () => {
     setIsCartOpen(!isCartOpen);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(fetchUserLogout());
   };
 
   const account = useSelector((state) => state.account);
+
+  console.log(account);
 
   return (
     <>
@@ -87,43 +94,41 @@ const Root = () => {
             />
             <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
           </div>
-          <Link>
-            <div className="group relative">
-              <FontAwesomeIcon
-                icon={faUser}
-                className="lg:px-[20px] md:px-[7px]"
-              />
-              <div className="hidden absolute group-hover:block right-0 shadow-lg mt-[15px]">
-                {!account && !account.auth === true ? (
-                  <div className="bg-[white]">
-                    <Link
-                      to="/login"
-                      className="text-center p-[10px] hover:bg-[#3C3C3B] hover:text-[white]"
-                    >
-                      Login
-                    </Link>
-                  </div>
-                ) : (
-                  <ul className="bg-[white]  ">
-                    <li className="p-[10px]">{account.email}</li>
-                    <li
-                      className="text-center p-[10px] hover:bg-[chocolate] hover:text-[white]"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </li>
-                  </ul>
-                )}
-              </div>
+
+          <div className="group relative" onClick={toggle}>
+            <FontAwesomeIcon
+              icon={faUser}
+              className="lg:px-[20px] md:px-[7px] py-[auto]"
+            />
+            <div
+              className={`absolute right-0 shadow-lg mt-[17px] 
+              ${isOpen ? "" : "hidden"}`}
+            >
+              {account && account.auth === true ? (
+                <ul className="bg-[white] rounded-lg">
+                  <li className="p-[10px]">{account.email}</li>
+                  <li
+                    className="text-center p-[10px] hover:bg-[chocolate] hover:text-[white] rounded-lg"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              ) : (
+                <div className="bg-[white] text-center px-[30px] py-[10px] hover:bg-[#3C3C3B] hover:text-[white] rounded-lg ">
+                  <Link to="/login">Login</Link>
+                </div>
+              )}
             </div>
-          </Link>
+          </div>
+
           <div>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </div>
         </div>
       </div>
 
-      <div>
+      <div className="caret-transparent">
         <Outlet />
       </div>
 

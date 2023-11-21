@@ -32,6 +32,7 @@ const userSlice = createSlice({
         token: "",
         auth: false,
       };
+      localStorage.removeItem("token");
     },
   },
 });

@@ -35,7 +35,6 @@ export const handleLoginRedux = (email, password) => {
 export const handleLogoutRedux = () => {
   return (dispatch) => {
     dispatch(fetchUserLogout());
-    localStorage.removeItem("token");
   };
 };
 
