@@ -26,10 +26,21 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
     },
+    fetchUserLogout: (state) => {
+      state.account = {
+        email: "",
+        token: "",
+        auth: false,
+      };
+    },
   },
 });
 
-export const { fetchUserLogin, fetchUserError, fetchUserSuccess } =
-  userSlice.actions;
+export const {
+  fetchUserLogin,
+  fetchUserError,
+  fetchUserSuccess,
+  fetchUserLogout,
+} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -2,8 +2,10 @@ import userSlice, {
   fetchUserLogin,
   fetchUserError,
   fetchUserSuccess,
-} from "../reducers/userSlice";
+  fetchUserLogout,
+} from "../slices/userSlice";
 import { loginApi } from "../../service/UserServices";
+import { useDispatch } from "react-redux";
 
 export const handleLoginRedux = (email, password) => {
   return async (dispatch) => {
@@ -27,6 +29,13 @@ export const handleLoginRedux = (email, password) => {
       alert("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
       dispatch(fetchUserError());
     }
+  };
+};
+
+export const handleLogoutRedux = () => {
+  return (dispatch) => {
+    dispatch(fetchUserLogout());
+    localStorage.removeItem("token");
   };
 };
 

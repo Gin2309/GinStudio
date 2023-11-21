@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { handleLoginRedux } from "../redux/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
-import userSlice from "../redux/reducers/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -14,8 +13,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const isLoading = useSelector((state) => state.user);
-  const account = useSelector((state) => state.user);
+  const isLoading = useSelector((state) => state.isLoading);
+  const account = useSelector((state) => state.account);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -73,13 +72,13 @@ const Login = () => {
                 {isLoading && (
                   <FontAwesomeIcon
                     icon={faSpinner}
-                    className="fa-spin-pulse fa-spin-reverse"
+                    className="fa-spin-pulse "
                   />
                 )}{" "}
                 LOG ME IN
               </Link>
 
-              <Link className="  uppercase text-center mt-[10px] font-bold">
+              <Link className="uppercase text-center mt-[10px] font-bold">
                 forgot your password
               </Link>
             </div>

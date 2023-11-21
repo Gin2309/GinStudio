@@ -19,7 +19,7 @@ function Cart({ isOpen, toggleCart }) {
       className={`bg-white top-[35px] right-0 w-[530px]  absolute shadow-2xl 
        ${isOpen ? "" : "hidden"}`}
     >
-      <h1 className="text-[23px] font-bold pb-[20px] pl-[20px]">
+      <h1 className="text-[23px] font-bold pb-[20px] pl-[20px] ">
         Giỏ hàng của bạn
       </h1>
       <ul className="pl-[20px]">

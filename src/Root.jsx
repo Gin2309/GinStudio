@@ -4,12 +4,16 @@ import { Link, Outlet } from "react-router-dom";
 import { styles } from "./styles";
 import { Cart, Footer } from "./components";
 import { ginlogo2 } from "./assets";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
   faUser,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+// import { handleLogoutRedux } from "./redux/action/userAction";
+import { useDispatch } from "react-redux";
+import { fetchUserLogout } from "./redux/slices/userSlice";
 
 const Root = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -17,6 +21,13 @@ const Root = () => {
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(fetchUserLogout());
+  };
+
+  const account = useSelector((state) => state.account);
 
   return (
     <>
@@ -76,11 +87,35 @@ const Root = () => {
             />
             <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
           </div>
-          <Link to="/register">
-            <FontAwesomeIcon
-              icon={faUser}
-              className="lg:px-[20px] md:px-[7px]"
-            />
+          <Link>
+            <div className="group relative">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="lg:px-[20px] md:px-[7px]"
+              />
+              <div className="hidden absolute group-hover:block right-0 shadow-lg mt-[15px]">
+                {!account && !account.auth === true ? (
+                  <div className="bg-[white]">
+                    <Link
+                      to="/login"
+                      className="text-center p-[10px] hover:bg-[#3C3C3B] hover:text-[white]"
+                    >
+                      Login
+                    </Link>
+                  </div>
+                ) : (
+                  <ul className="bg-[white]  ">
+                    <li className="p-[10px]">{account.email}</li>
+                    <li
+                      className="text-center p-[10px] hover:bg-[chocolate] hover:text-[white]"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </div>
           </Link>
           <div>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
