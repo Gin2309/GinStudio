@@ -3,6 +3,7 @@ import userSlice, {
   fetchUserError,
   fetchUserSuccess,
   fetchUserLogout,
+  userRefresh,
 } from "../slices/userSlice";
 import { loginApi } from "../../service/UserServices";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ export const handleLoginRedux = (email, password) => {
       if (res && res.token) {
         dispatch(fetchUserSuccess({ email: email.trim(), token: res.token }));
         localStorage.setItem("token", res.token);
+        localStorage.setItem("email", email);
       } else {
         if (res && res.status === 400) {
           alert(res.data.error);
@@ -35,6 +37,12 @@ export const handleLoginRedux = (email, password) => {
 export const handleLogoutRedux = () => {
   return (dispatch) => {
     dispatch(fetchUserLogout());
+  };
+};
+
+export const handleRefresh = () => {
+  return (dispatch) => {
+    dispatch(userRefresh());
   };
 };
 

@@ -13,6 +13,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { fetchUserLogout } from "./redux/slices/userSlice";
+import { useEffect } from "react";
+import { handleRefresh } from "./redux/action/userAction";
 
 const Root = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -27,14 +29,20 @@ const Root = () => {
     setIsOpen(!isOpen);
   };
 
+  //redux
   const dispatch = useDispatch();
+
   const handleLogout = () => {
     dispatch(fetchUserLogout());
   };
 
-  const account = useSelector((state) => state.account);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(handleRefresh());
+    }
+  }, []);
 
-  console.log(account);
+  const account = useSelector((state) => state.account);
 
   return (
     <>
